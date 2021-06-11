@@ -1,4 +1,4 @@
-from flask import Flask, request  # 서버 구현을 위한 Flask 객체 import
+from flask import Flask, request, send_file  # 서버 구현을 위한 Flask 객체 import
 from flask_restx import Api, Resource  # Api 구현을 위한 Api 객체 import
 from run_model import run_model
 
@@ -51,6 +51,11 @@ class TodoSimple(Resource):
         return {
             "delete" : "success"
         }
+
+@api.route('/download')
+class Download_file(Resource):
+    def get(self):
+        return send_file("./tfjs/converted.zip", as_attachment=True)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)
