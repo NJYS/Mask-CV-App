@@ -1,5 +1,6 @@
 from flask import Flask, request  # 서버 구현을 위한 Flask 객체 import
 from flask_restx import Api, Resource  # Api 구현을 위한 Api 객체 import
+from run_model import run_model
 
 app = Flask(__name__)  # Flask 객체 선언, 파라미터로 어플리케이션 패키지의 이름을 넣어줌.
 api = Api(app)  # Flask 객체에 Api 객체 등록
@@ -23,10 +24,11 @@ class TodoPost(Resource):
         idx = count
         count += 1
         lists[idx] = request.json.get('data')
+        result = run_model(lists[idx])
         
         return {
             'todo_id': idx,
-            'data': lists[idx]
+            'data': result
         }
 
 @api.route('/masks/<int:todo_id>')
