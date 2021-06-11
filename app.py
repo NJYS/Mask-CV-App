@@ -6,15 +6,15 @@ from flask_cors import CORS
 app = Flask(__name__)  # Flask 객체 선언, 파라미터로 어플리케이션 패키지의 이름을 넣어줌.
 api = Api(app)  # Flask 객체에 Api 객체 등록
 CORS(app)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 lists = {}
 count = 1
 
-
 @api.route('/hello')  # 데코레이터 이용, '/hello' 경로에 클래스 등록
 class HelloWorld(Resource):
     def get(self):  # GET 요청시 리턴 값에 해당 하는 dict를 JSON 형태로 반환
-        return {"hello": "world!"}
+        return {"hello111": "world!"}
 
 @api.route('/masks')
 class TodoPost(Resource):
@@ -53,10 +53,12 @@ class TodoSimple(Resource):
             "delete" : "success"
         }
 
-@api.route('/download')
+@api.route('/download-test')
 class Download_file(Resource):
     def get(self):
-        return send_file("./tfjs/converted.zip", as_attachment=True)
+        #return {"hello":"world"}
+        return send_file("./converted/model.json", as_attachment=True, cache_timeout=0)
+        #return send_file("~/mask-cv-back/test.txt", as_attachment=True)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)
