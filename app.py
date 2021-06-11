@@ -53,12 +53,119 @@ class TodoSimple(Resource):
             "delete" : "success"
         }
 
+# tensorflow js
 @api.route('/download-test')
 class Download_file(Resource):
     def get(self):
         #return {"hello":"world"}
         return send_file("./converted/model.json", as_attachment=True, cache_timeout=0)
         #return send_file("~/mask-cv-back/test.txt", as_attachment=True)
+
+@api.route('/group1-shard1of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard1of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard2of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard2of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard3of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard3of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard4of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard4of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard5of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard5of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard6of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard6of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard7of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard7of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard8of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard8of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard9of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard9of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard10of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard10of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard11of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard11of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard12of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard12of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard13of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard13of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard14of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard14of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard15of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard15of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard16of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard16of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard17of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard17of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard18of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard18of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard19of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard19of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard20of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard20of21.bin", as_attachment=True, cache_timeout=0)
+
+@api.route('/group1-shard21of21.bin')
+class bin_file_1(Resource):
+    def get(self):
+        return send_file("./converted/group1-shard21of21.bin", as_attachment=True, cache_timeout=0)
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)
