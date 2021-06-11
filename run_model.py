@@ -63,8 +63,10 @@ def run_model(image_encode):
         test_dataset
     )
     
-    # model = models.resnet18(pretrained=True)
-    # model.fc = nn.Linear(in_features=512, out_features=18)
+    model = models.resnet18()
+    model.fc = nn.Linear(in_features=512, out_features=18)
+    
+    model.load_state_dict(torch.load('model.pth', map_location="cpu"))
     # torch.save(model, PATH)
 
 
@@ -78,7 +80,8 @@ def run_model(image_encode):
     # model = torch.load('model.pt')
     
     # heroku server
-    model = torch.load('model.pth')
+    # model = torch.load('model.pth')
+    # model.to('cpu')
     # model.eval()
     # model.to(device)
     # torch.save(model, 'model.pt')
@@ -89,7 +92,8 @@ def run_model(image_encode):
             pred = model(images)
             pred = pred.argmax(dim=-1)
     
-        return result_dict[pred.cpu().numpy()[0]]
+        return str(pred.cpu().numpy()[0])
+        # return result_dict[pred.cpu().numpy()[0]]
 
 
 
