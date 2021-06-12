@@ -24,6 +24,7 @@ class TodoPost(Resource):
         
         idx = count
         count += 1
+        print(request.json)
         lists[idx] = request.json.get('data')
         result = run_model(lists[idx])
         
