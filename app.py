@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask, request, send_file  # 서버 구현을 위한 Flask 객체 import
 from flask_restx import Api, Resource  # Api 구현을 위한 Api 객체 import
 from run_model import run_model
@@ -168,5 +170,5 @@ class bin_file_1(Resource):
         return send_file("./converted/group1-shard21of21.bin", as_attachment=True, cache_timeout=0)
 
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port='5000')
+#if __name__ == "__main__":
+#    app.run(host='0.0.0.0', port='8000')
