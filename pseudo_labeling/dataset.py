@@ -1,9 +1,10 @@
 import os
 import numpy as np
 
+import cv2
 from torch.utils.data import Dataset, DataLoader, random_split
 
-import cv2
+from utils import *
 
 
 class MaskDataLoader(Dataset):
@@ -27,9 +28,7 @@ class MaskDataLoader(Dataset):
         
         
         # cv2 를 활용하여 image 불러오기
-        image = cv2.imread(self.img_paths[index])
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB).astype(np.float32)
-        image /= 255.0
+        image = load_image(self.img_paths[index])
         
         mask = cv2.imread(self.img_paths[index][:-3] + 'png')
         mask = cv2.cvtColor(mask,cv2.COLOR_BGR2GRAY).astype(bool).astype(np.uint8)
@@ -58,6 +57,36 @@ class MaskDataLoader(Dataset):
         # 전체 dataset의 size를 return
         return len(self.img_paths)
 
+
+class PseudoDataLoader(Dataset):
+    """COCO format"""
+    def __init__(self, dataset_path: list, transform = None):
+        super().__init__()
+        self.dataset_path = dataset_path
+        self.transform = transform
+        
+        
+    def __getitem__(self, index: int):
+        # dataset이 index되어 list처럼 동작
+        
+        path = self.dataset_path[index]
+        
+        images = load_image(path)
+        
+        path, _ = path.split('.')
+        path = path + '.png'
+        
+        # transform -> albumentations 라이브러리 활용
+        if self.transform is not None:
+            transformed = self.transform(image=images)
+            images = transformed["image"]
+
+        return images, path
+    
+    def __len__(self) -> int:
+        # 전체 dataset의 size를 return
+        return len(self.dataset_path)
+    
 
 def collate_fn(batch):
     return tuple(zip(*batch))

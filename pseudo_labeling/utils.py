@@ -1,8 +1,15 @@
 import os
 import random
+from collections import defaultdict
 
 import numpy as np
 import torch
+import cv2
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
+import segmentation_models_pytorch as smp
+
+from model import *
 
 
 def seed_everything(seed):
@@ -14,7 +21,58 @@ def seed_everything(seed):
 
     np.random.seed(seed)
     random.seed(seed)
-   
+
+    
+def get_all_path(root):
+    all_path_dict = defaultdict(list)
+    _get_all_path(root, all_path_dict)
+    return all_path_dict
+    
+def _get_all_path(root, all_path_dict):
+    for file_name in os.listdir(root):
+        path = os.path.join(root, file_name)
+        if os.path.isdir(path):
+            _get_all_path(path, all_path_dict)
+        else:
+            all_path_dict[path.split('.')[-1]].append(path)
+
+
+def load_model(model, path, pretrained='imagenet'):
+    model = DeepLabV3Plus(model, pretrained, 3, 2)
+    model.load_state_dict(torch.load(path))
+    model.eval()
+    return model
+
+########################Augmentation##########################
+def get_train_transform(height = 512, width = 512):
+    return A.Compose([
+                        A.Resize(height, width),
+                        ToTensorV2()
+                        ])
+    
+    
+def get_val_transform(height = 512, width = 512):
+    return A.Compose([
+                    A.Resize(height, width),
+                    ToTensorV2()
+                    ])
+########################Augmentation##########################
+
+
+########################Images################################
+def load_image(path):
+    image = cv2.imread(path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB).astype(np.float32)
+    image /= 255
+    return image
+
+def save_image(path, output):
+    cv2.imwrite(path, output)
+    
+def resize_image(image, size=(224,224)):
+    return cv2.resize(image, dsize=size, interpolation=cv2.INTER_AREA)
+########################Images################################
+
     
 def label_accuracy_score(hist):
     """
@@ -72,3 +130,43 @@ def save_model(model, saved_dir, file_name='best_model(pretrained).pt', save_lim
 
 
     torch.save(model.state_dict(), output_path)
+    
+
+def show_images(img_paths:list, n:int, base_dir='data'):
+    fig = plt.figure(figsize=(24, 500))
+
+    assert (len(img_paths) > n), 'number of paths should larger than n'
+    
+    img_paths = cv2.cvtColor(img_paths[:n], cv2.COLOR_RGB2BGR)
+    
+    transform = get_train_transform()
+    
+    idx = 1
+    
+    for path in img_paths:
+        image = load_image(path)
+        
+        transformed = transform(image=image)
+        image = transformed["image"]        
+        
+        title = '_'.join(path.split('/')[-2:])
+        
+        image = image.permute(1,2,0)
+        
+        
+        ax = fig.add_subplot(n,4,idx)
+        ax.imshow(image)
+        ax.set_title(f'{title} : image')
+        
+        idx += 1
+        
+        mask_path = path.split('.')[0] + '.png'
+        mask = load_image(mask_path)
+        
+        ax = fig.add_subplot(n,4,idx)
+        ax.imshow(image+mask*255)
+        
+        idx += 1
+        ax.set_title(f'{title} : mask')
+
+    plt.show()

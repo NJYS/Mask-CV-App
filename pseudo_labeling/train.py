@@ -22,19 +22,6 @@ from dataset import *
 from loss import *
 
 
-def get_train_transform(height = 512, width = 512):
-    return A.Compose([
-                        A.Resize(height, width),
-                        ToTensorV2()
-                        ])
-    
-    
-def get_val_transform(height = 512, width = 512):
-    return A.Compose([
-                    A.Resize(height, width),
-                    ToTensorV2()
-                    ])
-
 
 def train(args):
     wandb.init(project='Mask_Seg_Pseudo_Labeling', name=f'{args.name}')
@@ -123,7 +110,7 @@ def train(args):
                 print('Save model in', saved_dir)
                 best_loss = avrg_loss
                 save_model(model, saved_dir=saved_dir, file_name = f'epoch_{epoch}_loss_{best_loss:.4f}.pth', save_limit=args.save_limit)
-            if mIoU > best_mIoU:
+            elif mIoU > best_mIoU:
                 print('[mIoU] Best performance at epoch: {}'.format(epoch + 1))
                 print('Save model in', saved_dir)
                 best_mIoU = mIoU
