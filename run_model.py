@@ -11,6 +11,8 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from imantics import Mask
 
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
 def get_train_transform(height = 224, width = 224):
     return A.Compose([
                     A.Resize(height, width),
@@ -69,25 +71,76 @@ def post_processing(prediction):
         if score < threshold:
             result['number'] = idx-1
             break
-        polygons = Mask((mask.numpy() > 0.5).squeeze(0)).polygons()
-        result['bboxes'].update({idx:box.numpy().tolist()})
-        result['labels'].update({idx:label_dict[label.numpy().tolist()]})
-        result['segmentations'].update({idx:polygons.points[0].tolist()})
+        polygons = Mask((mask.detach().cpu().numpy() > 0.5).squeeze(0)).polygons()
+        result['bboxes'].update({idx:[round(x,2) for x in box.detach().cpu().numpy().tolist()]})
+        result['labels'].update({idx:label_dict[label.detach().cpu().numpy().tolist()]})
+        polygon_list = ''
+        for x, y in polygons.points[0].tolist():
+            polygon_list += str(x)+','+str(y)+' '
+        result['segmentations'].update({idx:polygon_list.rstrip()})
     else:
         result['number'] = idx
     return result
 
-def inference_image(path):
+def inference_image(path,model):
+    print(torch.cuda.is_available())
     tfm = get_train_transform()
     #     image = load_image(test_paths[0])
     image = load_image(path)
     image = tfm(image=image)['image']
 
-    model = get_instance_segmentation_model(13)
-    model.load_state_dict(torch.load('mask_rcnn_final_state_dict.pt', map_location='cpu'))
-    model.eval()
-
     with torch.no_grad():
-        prediction = model(image.unsqueeze(0).to('cpu'))
+        prediction = model(image.unsqueeze(0).to(device))
 
     return post_processing(prediction)
+
+def GetBoundingBoxImage(file_path,info):
+    
+    fig,ax = plt.subplots(figsize=(15,15))
+    ax.axis('off')
+    image = cv2.imread(file_path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = cv2.resize(image,(1024,1024))  
+    
+    for i in range(1,info['number']+1):
+        xmin, ymin, xmax, ymax = map(int,info['bboxes'][i])
+        image = cv2.rectangle(image, (xmin, ymin), (xmax, ymax), (255,0,0), 1)
+        
+    ax.imshow(image)
+    plt.imsave('./'+file_path.split('.')[0]+'_bbox.png',image)
+
+def GetSegmentationImage(file_path,info):
+    
+    fig,ax = plt.subplots(figsize=(15,15))
+    ax.axis('off')
+    image = cv2.imread(file_path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = cv2.resize(image,(1024,1024))  
+    
+    for i in range(1,info['number']+1):
+        pixels = [j for j in zip(*info['segmentations'][i])]
+        plt.fill(pixels[0], pixels[1],alpha=0.3)
+        
+    plt.imshow(image)
+    plt.savefig('./'+file_path.split('.')[0]+'_seg.png')    
+
+    
+def GetBboxSegImage(file_path,info):
+    
+    fig,ax = plt.subplots(figsize=(15,15))
+    ax.axis('off')
+    image = cv2.imread(file_path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = cv2.resize(image,(1024,1024))  
+    
+    for i in range(1,info['number']+1):
+        xmin, ymin, xmax, ymax = map(int,info['bboxes'][i])
+        image = cv2.rectangle(image, (xmin, ymin), (xmax, ymax), (255,0,0), 1)
+    
+    for i in range(1,info['number']+1):
+        pixels = [j for j in zip(*info['segmentations'][i])]
+        plt.fill(pixels[0], pixels[1],alpha=0.3)
+    
+    ax.imshow(image)
+    plt.savefig('./'+file_path.split('.')[0]+'_bbox_seg.png')
+    
