@@ -1,100 +1,93 @@
 import torch
-from PIL import Image
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils.data import Dataset, DataLoader, Subset
-import torch.optim as optim
-from torchvision import transforms, utils, models
-from torchvision.transforms import Resize, ToTensor, Normalize
+import torchvision
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
+from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 import base64
 from io import BytesIO
+from imageio import imread
+import cv2
+import numpy as np
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
+from imantics import Mask
 
-result_dict ={
-    0:'마스크,남자,청년',
-    1:'마스크,남자,중년',
-    2:'마스크,남자,노년',
-    3:'마스크,여자,청년',
-    4:'마스크,여자,중년',
-    5:'마스크,여자,노년',
-    6:'부정확,남자,청년',
-    7:'부정확,남자,중년',
-    8:'부정확,남자,노년',
-    9:'부정확,여자,청년',
-    10:'부정확,여자,중년',
-    11:'부정확,여자,노년',
-    12:'안씀,남자,청년',
-    13:'안씀,남자,중년',
-    14:'안씀,남자,노년',
-    15:'안씀,여자,청년',
-    16:'안씀,여자,중년',
-    17:'안씀,여자,노년',
-}
+def get_train_transform(height = 224, width = 224):
+    return A.Compose([
+                    A.Resize(height, width),
+                    ToTensorV2()
+                    ])
 
-class TestDataset(Dataset):
-    def __init__(self, img_encode, transform):
-        self.img_encode = img_encode
-        self.transform = transform
-        byte_img = base64.b64decode(img_encode)
-        self.img_list = [BytesIO(byte_img)]
-        
-        
-    def __getitem__(self, index):
-        image = Image.open(self.img_list[index])
-        
-        if self.transform:
-            image = self.transform(image)
-        return image
-    
-    def __len__(self):
-        return len(self.img_list)
+def load_image(img_encode):
+    byte_img = base64.b64decode(img_encode)
+    image = imread(BytesIO(byte_img))
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR).astype(np.float32)
+    image /= 255
+    return image
 
-def run_model(image_encode):
+def get_instance_segmentation_model(num_classes):
+    # load an instance segmentation model pre-trained on COCO
+    model = torchvision.models.detection.maskrcnn_resnet50_fpn(pretrained=False)
+    # get the number of input features for the classifier
+    in_features = model.roi_heads.box_predictor.cls_score.in_features
+    # replace the pre-trained head with a new one
+    model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+    # now get the number of input features for the mask classifier
+    in_features_mask = model.roi_heads.mask_predictor.conv5_mask.in_channels
+    hidden_layer = 64
+    # and replace the mask predictor with a new one
+    model.roi_heads.mask_predictor = MaskRCNNPredictor(in_features_mask,
+                                                       hidden_layer,
+                                                       num_classes)
+    return model
 
-    test_transform = transforms.Compose([
-        transforms.CenterCrop((300,200)),
-        transforms.Resize(224),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    ])
+def post_processing(prediction):
+    label_dict = {
+    0:'',
+    1:'wear_male_under25',
+    2:'wear_male_over25',
+    3:'wear_female_under25',
+    4:'wear_female_over25',
+    5:'incorrect_male_under25',
+    6:'incorrect_male_over25',
+    7:'incorrect_female_under25',
+    8:'incorrect_female_over25',
+    9:'NotWear_male_under25',
+    10:'NotWear_male_over25',
+    11:'NotWear_female_under25',
+    12:'NotWear_female_over25',
+    }
+    result = {
+        'number':0,
+        'bboxes':{        
+        },
+        'labels':{
+        },
+        'segmentations':{
+        }}
+    threshold = 0.5
+    for idx, (box, label, score, mask) in enumerate(zip(*prediction[0].values()), start=1):
+        if score < threshold:
+            result['number'] = idx-1
+            break
+        polygons = Mask((mask.numpy() > 0.5).squeeze(0)).polygons()
+        result['bboxes'].update({idx:box.numpy().tolist()})
+        result['labels'].update({idx:label_dict[label.numpy().tolist()]})
+        result['segmentations'].update({idx:polygons.points[0].tolist()})
+    else:
+        result['number'] = idx
+    return result
 
-    test_dataset = TestDataset(image_encode, transform = test_transform)
+def inference_image(path):
+    tfm = get_train_transform()
+    #     image = load_image(test_paths[0])
+    image = load_image(path)
+    image = tfm(image=image)['image']
 
-    loader = DataLoader(
-        test_dataset
-    )
-    
-    model = models.resnet18()
-    model.fc = nn.Linear(in_features=512, out_features=18)
-    
-    model.load_state_dict(torch.load('model.pth', map_location="cpu"))
-    # torch.save(model, PATH)
+    model = get_instance_segmentation_model(13)
+    model.load_state_dict(torch.load('mask_rcnn_final_state_dict.pt', map_location='cpu'))
+    model.eval()
 
+    with torch.no_grad():
+        prediction = model(image.unsqueeze(0).to('cpu'))
 
-    # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    # device = torch.device("cpu")
-    # result_path = '/app/test_mask/mask/model.pth'
-    # result_path = 'mask/model.pth'
-    # model.load_state_dict(torch.load(result_path,map_location=device), strict=False)
-    
-    # local test
-    # model = torch.load('model.pt')
-    
-    # heroku server
-    # model = torch.load('model.pth')
-    # model.to('cpu')
-    # model.eval()
-    # model.to(device)
-    # torch.save(model, 'model.pt')
-
-    for images in loader:
-        with torch.no_grad():
-            # images = images.to(device)
-            pred = model(images)
-            pred = pred.argmax(dim=-1)
-    
-        return str(pred.cpu().numpy()[0])
-        # return result_dict[pred.cpu().numpy()[0]]
-
-
-
-
+    return post_processing(prediction)
