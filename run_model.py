@@ -10,16 +10,51 @@ import numpy as np
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from imantics import Mask
+import matplotlib.pyplot as plt
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-def get_train_transform(height = 224, width = 224):
+def get_test_transform(height = 224, width = 224):
+    """Example function with types documented in the docstring.
+
+    `PEP 484`_ type annotations are supported. If attribute, parameter, and
+    return types are annotated according to `PEP 484`_, they do not need to be
+    included in the docstring:
+
+    Args:
+        param1 (int): The first parameter.
+        param2 (str): The second parameter.
+
+    Returns:
+        bool: The return value. True for success, False otherwise.
+
+    .. _PEP 484:
+        https://www.python.org/dev/peps/pep-0484/
+
+    """
     return A.Compose([
                     A.Resize(height, width),
                     ToTensorV2()
                     ])
 
 def load_image(img_encode):
+    """Example function with types documented in the docstring.
+
+    `PEP 484`_ type annotations are supported. If attribute, parameter, and
+    return types are annotated according to `PEP 484`_, they do not need to be
+    included in the docstring:
+
+    Args:
+        param1 (int): The first parameter.
+        param2 (str): The second parameter.
+
+    Returns:
+        bool: The return value. True for success, False otherwise.
+
+    .. _PEP 484:
+        https://www.python.org/dev/peps/pep-0484/
+
+    """
     byte_img = base64.b64decode(img_encode)
     image = imread(BytesIO(byte_img))
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR).astype(np.float32)
@@ -27,6 +62,23 @@ def load_image(img_encode):
     return image
 
 def get_instance_segmentation_model(num_classes):
+    """Example function with types documented in the docstring.
+
+    `PEP 484`_ type annotations are supported. If attribute, parameter, and
+    return types are annotated according to `PEP 484`_, they do not need to be
+    included in the docstring:
+
+    Args:
+        param1 (int): The first parameter.
+        param2 (str): The second parameter.
+
+    Returns:
+        bool: The return value. True for success, False otherwise.
+
+    .. _PEP 484:
+        https://www.python.org/dev/peps/pep-0484/
+
+    """
     # load an instance segmentation model pre-trained on COCO
     model = torchvision.models.detection.maskrcnn_resnet50_fpn(pretrained=False)
     # get the number of input features for the classifier
@@ -43,6 +95,23 @@ def get_instance_segmentation_model(num_classes):
     return model
 
 def post_processing(prediction):
+    """Example function with types documented in the docstring.
+
+    `PEP 484`_ type annotations are supported. If attribute, parameter, and
+    return types are annotated according to `PEP 484`_, they do not need to be
+    included in the docstring:
+
+    Args:
+        param1 (int): The first parameter.
+        param2 (str): The second parameter.
+
+    Returns:
+        bool: The return value. True for success, False otherwise.
+
+    .. _PEP 484:
+        https://www.python.org/dev/peps/pep-0484/
+
+    """
     label_dict = {
     0:'',
     1:'wear_male_under25',
@@ -67,6 +136,7 @@ def post_processing(prediction):
         'segmentations':{
         }}
     threshold = 0.5
+    
     for idx, (box, label, score, mask) in enumerate(zip(*prediction[0].values()), start=1):
         if score < threshold:
             result['number'] = idx-1
@@ -83,8 +153,24 @@ def post_processing(prediction):
     return result
 
 def inference_image(path,model):
-    print(torch.cuda.is_available())
-    tfm = get_train_transform()
+    """Example function with types documented in the docstring.
+
+    `PEP 484`_ type annotations are supported. If attribute, parameter, and
+    return types are annotated according to `PEP 484`_, they do not need to be
+    included in the docstring:
+
+    Args:
+        param1 (int): The first parameter.
+        param2 (str): The second parameter.
+
+    Returns:
+        bool: The return value. True for success, False otherwise.
+
+    .. _PEP 484:
+        https://www.python.org/dev/peps/pep-0484/
+
+    """
+    tfm = get_test_transform()
     #     image = load_image(test_paths[0])
     image = load_image(path)
     image = tfm(image=image)['image']
@@ -95,7 +181,23 @@ def inference_image(path,model):
     return post_processing(prediction)
 
 def GetBoundingBoxImage(file_path,info):
-    
+    """Example function with types documented in the docstring.
+
+    `PEP 484`_ type annotations are supported. If attribute, parameter, and
+    return types are annotated according to `PEP 484`_, they do not need to be
+    included in the docstring:
+
+    Args:
+        param1 (int): The first parameter.
+        param2 (str): The second parameter.
+
+    Returns:
+        bool: The return value. True for success, False otherwise.
+
+    .. _PEP 484:
+        https://www.python.org/dev/peps/pep-0484/
+
+    """
     fig,ax = plt.subplots(figsize=(15,15))
     ax.axis('off')
     image = cv2.imread(file_path)
@@ -110,7 +212,23 @@ def GetBoundingBoxImage(file_path,info):
     plt.imsave('./'+file_path.split('.')[0]+'_bbox.png',image)
 
 def GetSegmentationImage(file_path,info):
-    
+    """Example function with types documented in the docstring.
+
+    `PEP 484`_ type annotations are supported. If attribute, parameter, and
+    return types are annotated according to `PEP 484`_, they do not need to be
+    included in the docstring:
+
+    Args:
+        param1 (int): The first parameter.
+        param2 (str): The second parameter.
+
+    Returns:
+        bool: The return value. True for success, False otherwise.
+
+    .. _PEP 484:
+        https://www.python.org/dev/peps/pep-0484/
+
+    """
     fig,ax = plt.subplots(figsize=(15,15))
     ax.axis('off')
     image = cv2.imread(file_path)
@@ -126,7 +244,23 @@ def GetSegmentationImage(file_path,info):
 
     
 def GetBboxSegImage(file_path,info):
-    
+    """Example function with types documented in the docstring.
+
+    `PEP 484`_ type annotations are supported. If attribute, parameter, and
+    return types are annotated according to `PEP 484`_, they do not need to be
+    included in the docstring:
+
+    Args:
+        param1 (int): The first parameter.
+        param2 (str): The second parameter.
+
+    Returns:
+        bool: The return value. True for success, False otherwise.
+
+    .. _PEP 484:
+        https://www.python.org/dev/peps/pep-0484/
+
+    """
     fig,ax = plt.subplots(figsize=(15,15))
     ax.axis('off')
     image = cv2.imread(file_path)
