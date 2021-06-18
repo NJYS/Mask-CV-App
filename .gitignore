@@ -10,6 +10,10 @@
 *.pth
 */data
 */wandb
+*/saved
+*/vision
+*/Untitled
+
 
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
