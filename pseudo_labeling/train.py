@@ -173,11 +173,13 @@ if __name__ == '__main__':
     parser.add_argument('--save_limit', type=int, default=10, help='maximum limitation to save')
     parser.add_argument('--image_resize', type=int, default=1024, help='resize image to train & val & test')
     parser.add_argument('--criterion', type=str, default='cross_entropy', help='criterion type (default: cross_entropy)')
-    # parser.add_argument('--name', default='Baseline Code', help='model save at')
+    parser.add_argument('--name', default='Baseline Code', help='model save at')
 
-    
+  
     # Container environment
     args = parser.parse_args()
     print(args)
 
-    train(args)
+    # train(args)
+
+    

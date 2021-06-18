@@ -8,6 +8,7 @@ import cv2
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 import segmentation_models_pytorch as smp
+import matplotlib.pyplot as plt
 
 from model import *
 
@@ -37,8 +38,8 @@ def _get_all_path(root, all_path_dict):
             all_path_dict[path.split('.')[-1]].append(path)
 
 
-def load_model(model, path, pretrained='imagenet'):
-    model = DeepLabV3Plus(model, pretrained, 3, 2)
+def load_model(model, path, num_class, pretrained='imagenet'):
+    model = DeepLabV3Plus(model, pretrained, 3, num_class)
     model.load_state_dict(torch.load(path))
     model.eval()
     return model
@@ -118,17 +119,16 @@ def save_model(model, saved_dir, file_name='best_model(pretrained).pt', save_lim
     check_point = {'net': model.state_dict()}
     output_path = os.path.join(saved_dir, file_name)
     file_list = os.listdir(saved_dir)
-    for fl in file_list: # error handling
-        if os.path.isdir(fl):
-            try:
-                file_list.remove(fl)
-            except:
-                print('error causes while removing directory :', fl)
-
-    for fl in sorted(file_list, key=lambda x:int(x.split('_')[1]))[:-save_limit-1]:
-        os.remove(os.path.join(saved_dir, fl))
-
-
+    if len(file_list) >= 10:
+        for file in sorted(file_list, reverse=True):
+            if 'best' in file:
+                continue
+            else:
+                path = os.path.join(saved_dir, file)
+                os.remove(path)
+                break
+        else:
+            print('cannot remove file')
     torch.save(model.state_dict(), output_path)
     
 
