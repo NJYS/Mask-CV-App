@@ -158,7 +158,7 @@ if __name__ == '__main__':
     parser.add_argument('--shuffle', type=bool, default=True, help='shuffle')
     parser.add_argument('--num_workers', type=int, default=2, help='num_workers')
     parser.add_argument('--dataset', type=str, default='data', help='dataset directory')
-    parser.add_argument('--num_classes', type=int, default=2, help='number of classes')
+    parser.add_argument('--num_classes', type=int, default=13, help='number of classes')
     parser.add_argument('--batch_size', type=int, default=2, help='input batch size for training (default: 8)')
     parser.add_argument('--valid_batch_size', type=int, default=8, help='input batch size for validing (default: 8)')
     parser.add_argument('--val_every', type=int, default=1, help='validation every {val_every}')
