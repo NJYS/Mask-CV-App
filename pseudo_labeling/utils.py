@@ -37,9 +37,8 @@ def _get_all_path(root, all_path_dict):
         else:
             all_path_dict[path.split('.')[-1]].append(path)
 
-
 def load_model(model, path, num_class, pretrained='imagenet'):
-    model = DeepLabV3Plus(model, pretrained, 3, num_class)
+    model = DeepLabV3Plus(encoder_name=model, encoder_weights=pretrained, in_channels=3, classes=num_class)
     model.load_state_dict(torch.load(path))
     model.eval()
     return model
