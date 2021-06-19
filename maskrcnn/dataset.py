@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 import numpy as np
 import torch
@@ -8,18 +10,18 @@ from utils import *
 
 
 class MaskDataset(Dataset):
-    def __init__(self, root='dataframe.csv', transform=None):
-        self.root = root
+    def __init__(self, root='data', mode='train', transform=None):
+        self.root = os.path.join(root, mode+'.csv')
         self.transform = transform
-        self.dataframe = pd.read_csv(root)
+        self.dataframe = pd.read_csv(self.root)
         
     def __getitem__(self, idx):
         # load images ad masks
         line = self.dataframe.iloc[idx]
-        
+
         img_path = line['path']
         mask_path = img_path[:-3] + 'png'
-        img_cls = line['class'] + 1
+        img_cls = line['class'] + 2
         img = load_image(img_path)
 
         mask = cv2.imread(mask_path)
@@ -36,13 +38,22 @@ class MaskDataset(Dataset):
 
         # get bounding box coordinates for each mask
         num_objs = len(obj_ids)
-        
-        # there is only one class
-        boxes = [list(map(float, line['bbox'].split()))]
+
+        boxes = []
+
+        for i in range(num_objs):
+            pos = np.where(masks[i])
+            xmin = np.min(pos[1])
+            xmax = np.max(pos[1])
+            ymin = np.min(pos[0])
+            ymax = np.max(pos[0])
+            boxes.append([xmin, ymin, xmax, ymax])
+
+        boxes[0] = list(map(float, line['bbox'].split()))
 
         boxes = torch.as_tensor(boxes, dtype=torch.float32)
-        
-        labels = torch.ones((num_objs,), dtype=torch.int64) * img_cls
+
+        labels = torch.as_tensor(obj_ids, dtype=torch.int64)
         masks = torch.as_tensor(masks, dtype=torch.uint8) #.png에서 픽셀이 없는 친구들 -> 다 뺌
 
         image_id = torch.tensor([idx])
@@ -70,7 +81,7 @@ class MaskDataset(Dataset):
 def get_DataLoader(root:str, mode = 'train', transform = None, 
                     batch_size=4, shuffle=True, num_workers=2, ratio=0.2):
     
-    dataset = MaskDataset(root=root, transform=transform)
+    dataset = MaskDataset(root=root, mode=mode, transform=transform)
     
     n = len(dataset)
     
@@ -80,15 +91,10 @@ def get_DataLoader(root:str, mode = 'train', transform = None,
                         pin_memory=True, drop_last=False)
         return dataset, test_loader
             
-    else:
-        train_set, val_set = random_split(dataset, [n-int(n*ratio), int(n*ratio)])
-        
-        train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=shuffle,
+    else:        
+        loader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle,
                         num_workers=num_workers, collate_fn=collate_fn,
                         pin_memory=True, drop_last=False)
         
-        val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=shuffle,
-                        num_workers=num_workers, collate_fn=collate_fn,
-                        pin_memory=True, drop_last=False)
-        
-        return train_set, train_loader, val_set, val_loader
+        return dataset, loader
+

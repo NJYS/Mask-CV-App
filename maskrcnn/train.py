@@ -27,22 +27,30 @@ def train(args):
     seed_everything(args.seed)
     args.name = args.name.replace(' ','_')
     saved_dir = f'saved/{args.model}_{args.name}'
-    if os.path.isdir(saved_dir):
+    if not os.path.isdir(saved_dir):
         os.makedirs(saved_dir)
 
     # -- settings
     device = "cuda" if torch.cuda.is_available() else "cpu" 
 
     # -- transform
-    train_transform = get_transform(False)
+    train_transform = get_transform(True)
+    val_transform = get_transform(False)
 
     # -- dataset
-    train_dataset, train_loader, val_dataset, val_loader = get_DataLoader(root=args.dataset, 
-                                                                          mode = 'train', 
-                                                                          transform = train_transform, 
-                                                                          batch_size=args.batch_size, 
-                                                                          shuffle=args.shuffle, 
-                                                                          num_workers=args.num_workers)
+    train_dataset, train_loader = get_DataLoader(root=args.dataset, 
+                                                  mode = 'train', 
+                                                  transform = train_transform, 
+                                                  batch_size=args.batch_size, 
+                                                  shuffle=args.shuffle, 
+                                                  num_workers=args.num_workers)
+    
+    val_dataset, val_loader = get_DataLoader(root=args.dataset, 
+                                                  mode = 'val', 
+                                                  transform = val_transform, 
+                                                  batch_size=args.batch_size, 
+                                                  shuffle=args.shuffle, 
+                                                  num_workers=args.num_workers)
     
     
     print(f'train_data {len(train_dataset)}, val_dataset {len(val_dataset)} loaded')
@@ -68,10 +76,10 @@ def train(args):
         scheduler.step()
 
         evaluate(model, val_loader, device=device)
-
-        file_name = f'epoch_{epoch}.pt'
-
-        save_model(model, saved_dir, file_name)
+        
+        save_model(model, saved_dir, file_name=f'epoch_{epoch}.pt')
+        
+        
 
 
 
@@ -84,13 +92,14 @@ if __name__ == '__main__':
     parser.add_argument('--epochs', type=int, default=20, help='number of epochs to train (default: 1)')
     parser.add_argument('--shuffle', type=bool, default=True, help='shuffle')
     parser.add_argument('--num_workers', type=int, default=4, help='num_workers')
-    parser.add_argument('--dataset', type=str, default='dataframe.csv', help='dataset directory')
-    parser.add_argument('--num_classes', type=int, default=13, help='number of classes')
-    parser.add_argument('--batch_size', type=int, default=4, help='input batch size for training (default: 8)')
+    parser.add_argument('--dataset', type=str, default='data', help='dataset directory')
+    parser.add_argument('--num_classes', type=int, default=14, help='number of classes')
+    parser.add_argument('--batch_size', type=int, default=16, help='input batch size for training (default: 8)')
     parser.add_argument('--model', type=str, default='mask_rcnn', help='model type (default: mask_rcnn)')
-    parser.add_argument('--lr', type=float, default=1e-4, help='learning rate (default: 1e-4)')
+    parser.add_argument('--lr', type=float, default=5e-5, help='learning rate (default: 1e-4)')
     parser.add_argument('--lr_decay_step', type=int, default=5, help='learning rate scheduler deacy step (default: 5)')
     parser.add_argument('--name', type=str, default='Baseline', help='model save at')
+    parser.add_argument('--image_resize', type=int, default=1024, help='resize image to train & val & test')
 
     
     # Container environment
