@@ -74,11 +74,27 @@ function RealTime(){
     const classes = useStyles();
 
     const [camState, setCam] = useState<boolean>(false);
-    const [interval, setInterval] = useState<number | number[]>(1.0);
+    const [classState, setClass] = useState<boolean>(false);
+    const [segState, setSeg] = useState<boolean>(false);
+    const [detState, setDet] = useState<boolean>(false);
+    const [interval, setInterval] = useState<number | number[]>(7);
     
     // webcam
     const camToggle = () => {
       setCam(camState => !camState);
+    }
+
+    // toggle buttons
+    const classToggle = () => {
+      setClass(classState => !classState);
+    }
+
+    const segToggle = () => {
+      setSeg(segState => !segState);
+    }
+
+    const detToggle = () => {
+      setDet(detState => !detState);
     }
 
     return (
@@ -88,7 +104,14 @@ function RealTime(){
         <Container maxWidth="sm">
           <Grid item>
           <Paper elevation={4} className ={classes.main}>
-            {camState ? <WebcamDrawing/> : null}
+            {camState ? 
+              <WebcamDrawing 
+                interval = {interval}
+                classification = {classState} 
+                segmentation = {segState}
+                detection = {detState} /> 
+              : null
+            }
             <Box mt="3rem"/>
           </Paper>
           </Grid>
@@ -97,17 +120,23 @@ function RealTime(){
         <Grid container spacing={3} direction="row" alignItems="center" justify="center">
           <Grid item>
             <Tooltip title="classification" arrow>
-              <Button variant="contained" size="small" color="primary">class🧡</Button>
+              {classState? <Button variant="contained" size="small" color="secondary" onClick = {classToggle}>class🧡</Button>
+                : <Button variant="contained" size="small" color="primary" onClick = {classToggle}>class🧡</Button>
+              }
             </Tooltip>
           </Grid>
           <Grid item>
             <Tooltip title="segmentation" arrow>
-              <Button variant="contained" size="small" color="primary">seg💛</Button>
+              {segState? <Button variant="contained" size="small" color="secondary" onClick = {segToggle}>seg💛</Button>
+                : <Button variant="contained" size="small" color="primary" onClick = {segToggle}>seg💛</Button>
+              }
             </Tooltip>
           </Grid>
           <Grid item>
           <Tooltip title="detection" arrow>
-              <Button variant="contained" size="small" color="primary">det💚</Button>
+              {detState ? <Button variant="contained" size="small" color="secondary" onClick = {detToggle}>det💙</Button>
+                : <Button variant="contained" size="small" color="primary" onClick = {detToggle}>det💙</Button>
+              }
             </Tooltip>
           </Grid>
           <Grid item>
@@ -120,9 +149,9 @@ function RealTime(){
             </label>
           </Grid>
           <Grid item>
-            <Typography gutterBottom>Interval(초)</Typography>
+            <Typography gutterBottom>fps</Typography>
             <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" 
-              defaultValue={1.0} min = {0.1} max = {5.0} step = {0.1} 
+              defaultValue={7} min = {1} max = {15} step = {1} 
               onChange = {(e, value : number | number[]) => {setInterval(value)}}
             />
           </Grid>
@@ -132,6 +161,5 @@ function RealTime(){
     </> 
     );
 }
-
 
 export default RealTime;
