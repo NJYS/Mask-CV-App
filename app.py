@@ -130,4 +130,4 @@ class Mask_classification_api(Resource):
             return json.dumps(result)
 # app running
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port='6006')
+    app.run(host='0.0.0.0', port='8000')
