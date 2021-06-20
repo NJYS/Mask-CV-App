@@ -1,5 +1,5 @@
 // material-UI
-import { withStyles, Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles, Theme, createStyles, makeStyles } from '@material-ui/core/styles/';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper  } from '@material-ui/core/';
 
 const StyledTableCell = withStyles((theme: Theme) =>

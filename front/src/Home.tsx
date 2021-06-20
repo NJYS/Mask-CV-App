@@ -8,16 +8,16 @@ import ImageResizer from './components/ImageResizer';
 import WebcamCapture from './components/WebcamCapture';
 
 // material UI
-import { Box, Button, Grid, Container, CircularProgress, Tooltip, Typography, Paper } from '@material-ui/core';
-import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
+import { Box, Button, Grid, Container, CircularProgress, Tooltip, Typography, Paper } from '@material-ui/core/';
+import { makeStyles, createMuiTheme, Theme, ThemeProvider } from '@material-ui/core/styles/';
+import IconButton from '@material-ui/core/IconButton/';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 interface picture {
     image : string;
 } 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme : Theme) => ({
     root : {
       width : 500,
     },

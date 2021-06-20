@@ -2,15 +2,15 @@ import {useState} from 'react';
 import ContactusTable from './ContactusTable';
 
 // material-UI
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Box, Toolbar, IconButton, Typography, Modal, Backdrop, Fade, Tooltip } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles/';
+import { AppBar, Box, Toolbar, IconButton, Typography, Modal, Backdrop, Fade, Tooltip } from '@material-ui/core/';
 
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import MailIcon from '@material-ui/icons/Mail';
 import GitHubIcon from '@material-ui/icons/GitHub';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme : Theme) => ({
   grow: {
     flexGrow: 1,
   },
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar(props : any) {
+export default function PrimarySearchAppBar(props : {theme : boolean, setTheme : React.Dispatch<React.SetStateAction<boolean>> }) {
   const classes = useStyles();
   
   //dark mode 

@@ -70,14 +70,14 @@ const WebcamDrawing = (props : toggles) => {
     const [segmentation, setSegmentation] = useState<string[]>(initData.segmentations);
 
     // boostcamp
-    const api = axios.create({
-      baseURL: `http://49.50.165.199:6010/`,
-    })
+    // const api = axios.create({
+    //   baseURL: `http://49.50.165.199:6010/`,
+    // })
 
     // AWS
-    // const api = axios.create({
-    //   baseURL: `http://54.180.91.142/`,
-    // })
+    const api = axios.create({
+      baseURL: `http://54.180.91.142/`,
+    })
   
     const [mutateCreate] = useMutation(
         (data: picture) => api.post('masks', data), { 
