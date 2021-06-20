@@ -69,10 +69,6 @@ function Home(){
       headers: headers
     })
   
-    // const api = axios.create({
-    //   baseURL: `http://49.50.163.7:6010/`,
-    // })
-  
     const [mutateCreate, {isLoading : isPicLoading}] = useMutation(
         (data: picture) => api.post('masks/', data), { 
       onSuccess: (res) => {
@@ -148,7 +144,7 @@ function Home(){
     }
 
     // webcam
-    const camToggle = () => {
+    const camToggle : () => void = () => {
       setResult('');
       setCam(camState => !camState);
       // 웹캠 켰을 때 기존 사진 정보 제거

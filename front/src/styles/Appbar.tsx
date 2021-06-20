@@ -2,9 +2,8 @@ import {useState} from 'react';
 import ContactusTable from './ContactusTable';
 
 // material-UI
-import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Typography, Modal, Backdrop, Fade, Tooltip } from '@material-ui/core';
+import { AppBar, Box, Toolbar, IconButton, Typography, Modal, Backdrop, Fade, Tooltip } from '@material-ui/core';
 
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
@@ -89,7 +88,7 @@ export default function PrimarySearchAppBar(props : any) {
   );
 
   // github repository
-  const repoLink : string = "https://github.com/NJYS/mask-cv-front"
+  const repoLink : string = "https://github.com/NJYS/Mask-CV-App"
 
   return (
     <div className={classes.grow}>
