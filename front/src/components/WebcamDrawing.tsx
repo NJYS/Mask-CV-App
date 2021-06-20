@@ -21,9 +21,19 @@ interface maskData {
     labels : string[],
     segmentations : string[],
 }
+interface picture {
+  image : string;
+};
+
+interface toggles{
+  interval : number | number[],
+  classification : boolean,
+  segmentation : boolean,
+  detection : boolean
+};
 
 // 16 bright colors
-const colorMap = [ 
+const colorMap : any = [ 
   red, pink, purple, deepPurple, indigo, blue, lightBlue, 
   cyan, teal, green, lightGreen, lime, yellow, amber, orange,
   deepOrange];
@@ -36,20 +46,10 @@ const initData : maskData ={
 }
 
 // 10 colors
-const initColors = [
+const initColors :string[] = [
   red[400], purple[400], indigo[400], blue[400], cyan[400], 
   green[400], lime[400], yellow[400], amber[400], deepOrange[400]
 ]
-interface picture {
-  image : string;
-};
-
-interface toggles{
-  interval : number | number[],
-  classification : boolean,
-  segmentation : boolean,
-  detection : boolean
-};
 
 const videoConstraints = {
     width: 448,

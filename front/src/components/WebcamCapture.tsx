@@ -1,17 +1,20 @@
-import { useRef, useCallback} from 'react';
+import React, {useRef, useCallback} from 'react';
 import Webcam from 'react-webcam';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import { Button, Grid, Box } from '@material-ui/core';
 
 const videoConstraints = {
     width: 448,
     height: 448,
     facingMode: "user"
-  };
+};
 
-const WebcamCapture = (props : any) => {
-    const webcamRef : React.MutableRefObject<any> = useRef<any>(null);
+interface prop {
+  camToggle  : () => void,
+  setPreview : (arg0 : string) => void
+}
+
+const WebcamCapture = (props : prop) => {
+    const webcamRef = useRef<any>(null);
     const {camToggle, setPreview} = props;
 
     const capture = useCallback(() => {
@@ -25,10 +28,10 @@ const WebcamCapture = (props : any) => {
             <Grid container justify="center" alignItems="center">
               <Webcam
                 audio={false}
-                height={window.innerHeight> 512? 448 : 256}
+                height={window.innerHeight> 800 ? 448 : 224}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
-                width={window.innerHeight > 512? 448 : 256}
+                width={window.innerWidth > 800 ? 448 : 224}
                 videoConstraints={videoConstraints}
               />
             </Grid>
