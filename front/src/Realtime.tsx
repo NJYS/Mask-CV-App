@@ -61,7 +61,8 @@ const useStyles = makeStyles((theme) => ({
   },
   main : {
       padding : '2em',
-      backgroundColor: '#cfe8fc',
+      backgroundColor: '#757de8',
+      dark: '#002984',
       height: '60vh', 
       overflow: 'auto',
   },
@@ -149,7 +150,7 @@ function RealTime(){
             </label>
           </Grid>
           <Grid item>
-            <Typography gutterBottom>fps</Typography>
+            <Typography gutterBottom>　　fps 설정　　</Typography>
             <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" 
               defaultValue={7} min = {1} max = {15} step = {1} 
               onChange = {(e, value : number | number[]) => {setInterval(value)}}

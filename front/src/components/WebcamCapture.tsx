@@ -10,7 +10,7 @@ const videoConstraints = {
 
 interface prop {
   camToggle  : () => void,
-  setPreview : (arg0 : string) => void
+  setPreview : React.Dispatch<React.SetStateAction<string>>
 }
 
 const WebcamCapture = (props : prop) => {

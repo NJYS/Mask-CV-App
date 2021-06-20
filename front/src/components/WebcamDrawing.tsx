@@ -7,10 +7,10 @@ import Webcam from 'react-webcam';
 import useInterval from './useInterval';
 
 // material-UI
-import { Grid, Box } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core/';
 import { red, pink, purple, deepPurple, indigo, blue, 
           lightBlue, cyan, teal, green, lightGreen, lime,
-          yellow, amber, orange, deepOrange, } from '@material-ui/core/colors';
+          yellow, amber, orange, deepOrange, } from '@material-ui/core/colors/';
 
 // d3
 import { select } from "d3";
@@ -70,14 +70,14 @@ const WebcamDrawing = (props : toggles) => {
     const [segmentation, setSegmentation] = useState<string[]>(initData.segmentations);
 
     // boostcamp
-    const api = axios.create({
-      baseURL: `http://49.50.165.199:6010/`,
-    })
+    // const api = axios.create({
+    //   baseURL: `http://49.50.165.199:6010/`,
+    // })
 
     // AWS
-    // const api = axios.create({
-    //   baseURL: `http://54.180.91.142/`,
-    // })
+    const api = axios.create({
+      baseURL: `http://54.180.91.142/`,
+    })
   
     const [mutateCreate] = useMutation(
         (data: picture) => api.post('masks', data), { 
@@ -216,10 +216,10 @@ const WebcamDrawing = (props : toggles) => {
           <Grid container justify="center" alignItems="center">
           <Webcam
               audio={false}
-              height={window.innerHeight > 640? 448 : 224}
+              height={window.innerHeight > 640 ? 448 : 224}
               ref={webcamRef}
               screenshotFormat="image/jpeg"
-              width={window.innerWidth > 640? 448 : 224}
+              width={window.innerWidth > 640 ? 448 : 224}
               videoConstraints={videoConstraints}
           />
           <svg ref={svgRef}
@@ -229,8 +229,8 @@ const WebcamDrawing = (props : toggles) => {
               marginRight: "auto",
               textAlign: "center",
               zIndex: 9,
-              width: window.innerWidth > 640? 448 : 224,
-              height: window.innerHeight > 640? 448 : 224, 
+              width: window.innerWidth > 640 ? 448 : 224,
+              height: window.innerHeight > 640 ? 448 : 224, 
             }}
           />
           </Grid>
