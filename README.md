@@ -11,7 +11,7 @@
 
 ---
 
-![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Image_2021-06-16-23-09-54.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Image_2021-06-16-23-09-54.png)
+![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Image_2021-06-16-23-09-54.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Image_2021-06-16-23-09-54.png){: width="50%" height="50%"}
 
 - 사진 속 인물의 성별, 나이, 마스크 착용여부 등을 시각적으로 감별할 수 있는 서비스
 
