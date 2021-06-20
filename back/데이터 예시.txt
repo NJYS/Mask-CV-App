@@ -1,0 +1,16 @@
+{
+    갯수 : ??
+    갯수만큼 bbox : {
+        1:[y_max, x_max, y_min, x_min],
+        2:[y_max, x_max, y_min, x_min],
+    },
+    갯수만큼 Label : {
+        1 : wear_male_under25
+        2 : wear_male_under25
+
+    },
+    갯수만큼 segmentation : {
+        1 : 'x y x y x y x y x y x y x y'
+        2 : 'x y x y x y x y x y x y x y'
+    }
+}
