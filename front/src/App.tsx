@@ -39,7 +39,7 @@ function App() {
 
   return (
     <>
-    <BrowserRouter>
+    <BrowserRouter basename = "/Mask-CV-App">
       <ThemeProvider theme={appliedTheme}>
         <CssBaseline/>
         <Appbar theme = {theme} setTheme = {setTheme}/>
