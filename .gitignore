@@ -8,12 +8,36 @@
 
 
 *.pth
-*/data
+
+
+
 */wandb
 */saved
 */vision
 */Untitled
+*.zip
+*data/
+.gitignore
+*Untitled*
+*.pt
 
+*wandb/
+*vision/
+*us.png
+
+model/maskrcnn/JY.jpg
+model/maskrcnn/facemask.jpg
+model/maskrcnn/image.jpg
+model/maskrcnn/rerere.jpeg
+model/pseudo_labeling/TikTok.png
+model/pseudo_labeling/mask.jpg
+model/pseudo_labeling/pseudo_labeling-Copy1.ipynb
+
+
+
+model/maskrcnn/EDA-Copy1.ipynb
+
+model/maskrcnn/Untitled.ipynb
 
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
