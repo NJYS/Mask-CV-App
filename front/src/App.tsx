@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useMemo } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 // pages
@@ -27,7 +27,7 @@ function App() {
   const [theme, setTheme] = useState<boolean>(prefersDarkMode) // 다크모드
   const [value, setValue] = useState<number>(0);
 
-  const appliedTheme = React.useMemo(
+  const appliedTheme = useMemo(
     () =>
       createMuiTheme({
         palette: {
@@ -42,7 +42,7 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={appliedTheme}>
         <CssBaseline/>
-        <Appbar theme = {theme} setTheme = {setTheme}></Appbar>
+        <Appbar theme = {theme} setTheme = {setTheme}/>
         <Grid container spacing={0} direction="column" alignItems="center" justify="center">
           <Route exact path = "/" component = {Home}/>
           <Route path = "/realtime" component = {Realtime}/>

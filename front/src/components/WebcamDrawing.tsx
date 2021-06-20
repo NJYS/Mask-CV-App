@@ -7,10 +7,10 @@ import Webcam from 'react-webcam';
 import useInterval from './useInterval';
 
 // material-UI
-import { Grid, Box } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core/';
 import { red, pink, purple, deepPurple, indigo, blue, 
           lightBlue, cyan, teal, green, lightGreen, lime,
-          yellow, amber, orange, deepOrange, } from '@material-ui/core/colors';
+          yellow, amber, orange, deepOrange, } from '@material-ui/core/colors/';
 
 // d3
 import { select } from "d3";
@@ -216,10 +216,10 @@ const WebcamDrawing = (props : toggles) => {
           <Grid container justify="center" alignItems="center">
           <Webcam
               audio={false}
-              height={window.innerHeight > 640? 448 : 224}
+              height={window.innerHeight > 640 ? 448 : 224}
               ref={webcamRef}
               screenshotFormat="image/jpeg"
-              width={window.innerWidth > 640? 448 : 224}
+              width={window.innerWidth > 640 ? 448 : 224}
               videoConstraints={videoConstraints}
           />
           <svg ref={svgRef}
@@ -229,8 +229,8 @@ const WebcamDrawing = (props : toggles) => {
               marginRight: "auto",
               textAlign: "center",
               zIndex: 9,
-              width: window.innerWidth > 640? 448 : 224,
-              height: window.innerHeight > 640? 448 : 224, 
+              width: window.innerWidth > 640 ? 448 : 224,
+              height: window.innerHeight > 640 ? 448 : 224, 
             }}
           />
           </Grid>
