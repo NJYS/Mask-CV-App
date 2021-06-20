@@ -89,7 +89,7 @@ export default function PrimarySearchAppBar(props : any) {
   );
 
   // github repository
-  const repoLink : string = "https://github.com/NJYS/mask-cv-front"
+  const repoLink : string = "https://github.com/NJYS/Mask-CV-App"
 
   return (
     <div className={classes.grow}>
