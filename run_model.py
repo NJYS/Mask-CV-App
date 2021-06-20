@@ -87,11 +87,11 @@ def get_instance_segmentation_model(num_classes):
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
     # now get the number of input features for the mask classifier
     in_features_mask = model.roi_heads.mask_predictor.conv5_mask.in_channels
-    hidden_layer = 64
+    hidden_layer = 256
     # and replace the mask predictor with a new one
     model.roi_heads.mask_predictor = MaskRCNNPredictor(in_features_mask,
                                                        hidden_layer,
-                                                       num_classes)
+                                                      13)
     return model
 
 def post_processing(prediction):
@@ -112,44 +112,45 @@ def post_processing(prediction):
         https://www.python.org/dev/peps/pep-0484/
 
     """
+
     label_dict = {
-    0:'',
-    1:'wear_male_under25',
-    2:'wear_male_over25',
-    3:'wear_female_under25',
-    4:'wear_female_over25',
-    5:'incorrect_male_under25',
-    6:'incorrect_male_over25',
-    7:'incorrect_female_under25',
-    8:'incorrect_female_over25',
-    9:'NotWear_male_under25',
-    10:'NotWear_male_over25',
-    11:'NotWear_female_under25',
-    12:'NotWear_female_over25',
-    }
+            0:'',
+            1:'mask',
+            2:'wear_male_under25',
+            3:'wear_male_over25',
+            4:'wear_female_under25',
+            5:'wear_female_over25',
+            6:'incorrect_male_under25',
+            7:'incorrect_male_over25',
+            8:'incorrect_female_under25',
+            9:'incorrect_female_over25',
+            10:'NotWear_male_under25',
+            11:'NotWear_male_over25',
+            12:'NotWear_female_under25',
+            13:'NotWear_female_over25',
+        }
     result = {
-        'number':0,
-        'bboxes':{        
-        },
-        'labels':{
-        },
-        'segmentations':{
-        }}
+        'check':True,
+        'bboxes':[],
+        'labels':[],
+        'segmentations':[],
+        }
     threshold = 0.5
     
     for idx, (box, label, score, mask) in enumerate(zip(*prediction[0].values()), start=1):
-        if score < threshold:
-            result['number'] = idx-1
-            break
         polygons = Mask((mask.detach().cpu().numpy() > 0.5).squeeze(0)).polygons()
-        result['bboxes'].update({idx:[round(x,2) for x in box.detach().cpu().numpy().tolist()]})
-        result['labels'].update({idx:label_dict[label.detach().cpu().numpy().tolist()]})
+        if score < threshold:
+            break
+        
+        result['bboxes'].append([round(x*2,2) for x in box.detach().cpu().numpy().tolist()])
+        result['labels'].append(label_dict[label.detach().cpu().numpy().tolist()])
         polygon_list = ''
-        for x, y in polygons.points[0].tolist():
-            polygon_list += str(x)+','+str(y)+' '
-        result['segmentations'].update({idx:polygon_list.rstrip()})
-    else:
-        result['number'] = idx
+        try:
+            for x, y in polygons.points[0].tolist():
+                polygon_list += str(x*2)+','+str(y*2)+' '
+            result['segmentations'].append(polygon_list.rstrip())
+        except:
+            pass
     return result
 
 def inference_image(path,model):
@@ -171,7 +172,6 @@ def inference_image(path,model):
 
     """
     tfm = get_test_transform()
-    #     image = load_image(test_paths[0])
     image = load_image(path)
     image = tfm(image=image)['image']
 
@@ -277,4 +277,5 @@ def GetBboxSegImage(file_path,info):
     
     ax.imshow(image)
     plt.savefig('./'+file_path.split('.')[0]+'_bbox_seg.png')
+
     

@@ -55,7 +55,8 @@ def running_model_on_device():
     """
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     model = get_instance_segmentation_model(13)
-    model.load_state_dict(torch.load('mask_rcnn_final_state_dict.pt'))
+#     model.load_state_dict(torch.load('mask_rcnn_final_state_dict.pt'))
+    model.load_state_dict(torch.load('epoch_18.pt'))
     model.to(device)
     model.eval()
     return model
@@ -114,12 +115,19 @@ class Mask_classification_api(Resource):
         idx = count
         count += 1
 
-        lists[idx] = request.json.get('data')[23:]
-        result = inference_image(lists[idx], model)
-        
-        return json.dumps(result)
+        if not isinstance(request.json.get('data'),type(None)):
+            lists[idx] = request.json.get('data')[23:]
+            result = inference_image(lists[idx], model)
 
-
+            return json.dumps(result)
+        else:
+            result = {
+                'check':False,
+                'bboxes':[0,0,0,0],
+                'labels':[''],
+                'segmentations':['0,0'],
+                }
+            return json.dumps(result)
 # app running
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='6006')
