@@ -1,21 +1,20 @@
 # [SEG/DET-06] Pstage2Serving()
 
-기술스택: AWS, Flask, Nginx, Pytorch, React, Typescript
-발표시간: 14:00 - 14:20
-발표트랙: TRACK 1
-캠퍼 ID: T1006, T1010, T1066, T1184, T1242
-캠퍼 이름: 상훈 김, 주영 전, 규빈 김, 경환 박, 태확 권
+기술스택: AWS, Flask, Nginx, Pytorch, React, Typescript    
+발표시간: 14:00 - 14:20   
+발표트랙: TRACK 1   
+캠퍼 ID 와 이름 : T1006_권태확, T1010_박경환, T1066_박경환, T1184_전주영, T1242_김상훈        
 프로젝트(대회): SEG/DET
 
-# Pstage2Serving()
+## 서비스 소개
 
 ---
 
-![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Image_2021-06-16-23-09-54.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Image_2021-06-16-23-09-54.png){: width="100" height="100"}
+![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Image_2021-06-16-23-09-54.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Image_2021-06-16-23-09-54.png)
 
 - 사진 속 인물의 성별, 나이, 마스크 착용여부 등을 시각적으로 감별할 수 있는 서비스
 
-# 기획 의도(Pstage2Serving())
+## 기획 의도
 
 ---
 
@@ -23,7 +22,7 @@
 - P STAGE의 이미지 분류, 객체 인식, 의미 분할 태스크를 통합하여 웹서비스를 만들고자 했고, 이 서비스 구현에 필요한 역량들을 찾아보았습니다.
 - 데이터셋 생성, 딥러닝 모델 구현, 프론트엔드, 백엔드 등 서빙에 필요한 모든 파이프라인을 팀 NJYS가 고민하고, 구현하고, 개선해보면서 엔지니어링 능력을 향상시키고자 했습니다.
 
-# 팀 설명
+## 팀 설명
 
 ---
 
@@ -36,13 +35,13 @@
 
 ---
 
-# 팀원 소개
+## 팀원 소개
 
 ---
 
 ![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/2.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/2.png)
 
-## **권태확**
+### **권태확**
 
 - 뛰어난 모델 리서치 능력과 모델 라이브러리 활용 능력으로 빠르게 SOTA 모델 구현을 주로 담당.
 - [우직하게 성장하는 개발자, 권태확입니다.](https://www.notion.so/136ba9b6ad474e389d313c931277d7c5)
@@ -56,7 +55,7 @@
 
 ![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/3.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/3.png)
 
-## **김규빈**
+### **김규빈**
 
 - 팀을 구성하고 프로젝트 방향 설정.
 - 딥러닝 모델링에서의 디버깅을 주로 담당.
@@ -70,7 +69,7 @@
 
 ![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/4.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/4.png)
 
-## **김상훈**
+### **김상훈**
 
 - 프론트엔드 개발과 다양한 모델 서치 능력으로 학습과 UI를 담당.
 - [다양한 시도를 좋아하는 개발자, 김상훈입니다.](https://www.notion.so/9551e05e9667404cb8bbfb006cc7aff9)
@@ -83,7 +82,7 @@
 
 ![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/1.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/1.png)
 
-## **박경환**
+### **박경환**
 
 - 모델 백엔드 서버 구현 및 딥러닝 모델 디버깅 담당.
 - [해결을 좋아하는 개발자, 박경환입니다.](https://www.notion.so/ca780e6a0fff46bd87a9f099a67de276)
@@ -97,7 +96,7 @@
 
 ![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/5.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/5.png)
 
-## **전주영**
+### **전주영**
 
 - 프론트엔드 개발, 딥러닝 파라미터 튜닝 실험 및 현 프로젝트 정리.
 
@@ -117,8 +116,8 @@
 - P STAGE 4의 이미지 분류 경량화
 
 ---
-# Side Project: Mask-CV-App
-## 마스크 착용 여부, 성별, 나이 정보 추출 프로젝트
+## Side Project: Mask-CV-App
+### 마스크 착용 여부, 성별, 나이 정보 추출 프로젝트
 
 ![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Photo_2021-06-16-15-15-44.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Photo_2021-06-16-15-15-44.png)
 
@@ -128,7 +127,7 @@ p stage 1 모델을 활용한 분류기
 
 P stage 3 동안 학습한 내용을 통해 개발한 새로운 모델. Detection + Instance segmentation + classification.
 
-## 기획 의도(Pstage2Serving())
+### 기획 의도(Pstage2Serving())
 
 ---
 
@@ -136,7 +135,7 @@ P stage 3 동안 학습한 내용을 통해 개발한 새로운 모델. Detectio
 - P STAGE의 이미지 분류, 객체 인식, 의미 분할 태스크를 통합하여 웹서비스를 만들고자 했고, 이 서비스 구현에 필요한 역량들을 찾아보았습니다.
 - 데이터셋 생성, 딥러닝 모델 구현, 프론트엔드, 백엔드 등 서빙에 필요한 모든 파이프라인을 팀 NJYS가 고민하고, 구현하고, 개선해보면서 엔지니어링 능력을 향상시키고자 했습니다.
 
-## 프로젝트 이슈
+### 프로젝트 이슈
 
 ---
 
@@ -182,7 +181,7 @@ P stage 3 동안 학습한 내용을 통해 개발한 새로운 모델. Detectio
 - 서비스 이슈
     - inference time이 GPU를 사용하면 5fps, CPU를 사용하면 0.3fps 가 소모되어 현재 시간을 줄이기 위한 방법 모색 중.
 
-## Dataset
+### Dataset
 
 ---
 
@@ -190,7 +189,7 @@ P stage 3 동안 학습한 내용을 통해 개발한 새로운 모델. Detectio
 
 ![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/_2021-06-16__10.50.38.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/_2021-06-16__10.50.38.png)
 
-+
+\+
 
 ![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/_2021-06-16__10.49.40.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/_2021-06-16__10.49.40.png)
 
@@ -198,23 +197,23 @@ P stage 3 동안 학습한 내용을 통해 개발한 새로운 모델. Detectio
 
 ![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/_2021-06-16__10.48.51.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/_2021-06-16__10.48.51.png)
 
-## Tech Stack
+### Tech Stack
 
 ---
 
-### Front-End
+#### Front-End
 
 - React.js + Typescript + Material UI 및 여러 오픈소스 활용
 
     ![%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/Untitled%202.png](%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/Untitled%202.png)
 
-### Deep Learning
+#### Deep Learning
 
 - Mask R-CNN
 
     ![https://miro.medium.com/max/3840/1*9jlM5QjbTt46gH91RWgzAQ.png](https://miro.medium.com/max/3840/1*9jlM5QjbTt46gH91RWgzAQ.png)
 
-### Back-End
+#### Back-End
 
 - Nginx + Gunicorn + Flask + Pytorch
 
@@ -222,14 +221,10 @@ P stage 3 동안 학습한 내용을 통해 개발한 새로운 모델. Detectio
 
 ---
 
-# Github Repository
+## Github Repository
 
-- P stage 3 실험 코드
-
-[bcaitech1/p3-ims-obd-njys](https://github.com/bcaitech1/p3-ims-obd-njys)
+- P stage 3 실험 코드 : [bcaitech1/p3-ims-obd-njys](https://github.com/bcaitech1/p3-ims-obd-njys)
 
 ---
 
-- Side Project
-
-[NJYS](https://github.com/NJYS)
+- Side Project : [NJYS](https://github.com/NJYS/Mask-CV-App)
