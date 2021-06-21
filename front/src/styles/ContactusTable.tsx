@@ -32,8 +32,8 @@ const rows = [
   createData('김규빈', "model,data","kimkyu1515@naver.com","https://github.com/kkbwilldo"),
   createData('권태확', "model,data","taehwak@hanyang.ac.kr","https://github.com/taehwakkwon"),
   createData('김상훈', "front","ropeiny@gmail.com","https://github.com/simon-hoon"),
-  createData('박경환', "back","john1725258@gmail.com","https://github.com/hwan1753"),
-  createData('전주영', "front","zhonya_j@g.seoultech.ac.kr","https://github.com/zhonya-j"),
+  createData('박경환', "back","john175258@gmail.com","https://github.com/hwan1753"),
+  createData('전주영', "front","zhonyaj@gmail.com","https://github.com/zhonya-j"),
 ];
 
 const useStyles = makeStyles({
