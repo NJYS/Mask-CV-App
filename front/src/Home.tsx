@@ -8,16 +8,16 @@ import ImageResizer from './components/ImageResizer';
 import WebcamCapture from './components/WebcamCapture';
 
 // material UI
-import { Box, Button, Grid, Container, CircularProgress, Tooltip, Typography, Paper } from '@material-ui/core/';
-import { makeStyles, createMuiTheme, Theme, ThemeProvider } from '@material-ui/core/styles/';
-import IconButton from '@material-ui/core/IconButton/';
+import { Box, Button, Grid, Container, CircularProgress, Tooltip, Typography, Paper } from '@material-ui/core';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 interface picture {
     image : string;
 } 
 
-const useStyles = makeStyles((theme : Theme) => ({
+const useStyles = makeStyles((theme) => ({
     root : {
       width : 500,
     },
@@ -54,7 +54,6 @@ theme.typography.h3 = {
 
 function Home(){
     const classes = useStyles();
-
     const [previewURL, setPreview] = useState<string>('');
     const [isSetImage, setImage] = useState<boolean>(false);
     const [result, setResult] = useState<string>('');
@@ -85,9 +84,8 @@ function Home(){
           setImage(false);
         }
       else if(previewURL !== '') setImage(true);
-    }, [camState, previewURL, setPreview, setImage]);
-  
-    
+    }, [camState, previewURL, setPreview, setImage]); 
+
     const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
     
@@ -144,7 +142,7 @@ function Home(){
     }
 
     // webcam
-    const camToggle : () => void = () => {
+    const camToggle = () => {
       setResult('');
       setCam(camState => !camState);
       // 웹캠 켰을 때 기존 사진 정보 제거

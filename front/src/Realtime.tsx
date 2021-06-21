@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
   main : {
       padding : '2em',
       backgroundColor: '#757de8',
-      dark: '#002984',
       height: '60vh', 
       overflow: 'auto',
   },
@@ -75,9 +74,9 @@ function RealTime(){
     const classes = useStyles();
 
     const [camState, setCam] = useState<boolean>(false);
-    const [classState, setClass] = useState<boolean>(false);
-    const [segState, setSeg] = useState<boolean>(false);
-    const [detState, setDet] = useState<boolean>(false);
+    const [classState, setClass] = useState<boolean>(true);
+    const [segState, setSeg] = useState<boolean>(true);
+    const [detState, setDet] = useState<boolean>(true);
     const [interval, setInterval] = useState<number | number[]>(7);
     
     // webcam
@@ -152,7 +151,7 @@ function RealTime(){
           <Grid item>
             <Typography gutterBottom>　　fps 설정　　</Typography>
             <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" 
-              defaultValue={7} min = {1} max = {15} step = {1} 
+              defaultValue={5} min = {1} max = {10} step = {1} 
               onChange = {(e, value : number | number[]) => {setInterval(value)}}
             />
           </Grid>
