@@ -186,7 +186,7 @@
 
 <img src = "%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/_2021-06-16__10.49.40.png" width = "30%">
 
-- → NJYS dataset
+→ NJYS dataset
 
 <img src = "%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/_2021-06-16__10.48.51.png" width = "80%">
 
