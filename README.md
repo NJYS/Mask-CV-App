@@ -13,6 +13,8 @@
 <img src ="%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/KakaoTalk_Image_2021-06-16-23-09-54.png" width = "50%" height = "50%">
 
 - 사진 속 인물의 성별, 나이, 마스크 착용여부 등을 시각적으로 감별할 수 있는 서비스
+- 배포 : https://mask-cv.netlify.app/ (현재 GPU 서버는 비용 문제로 닫혀있어 실시간 서비스를 이용할 수 없습니다.)
+- 시연 영상: https://youtu.be/K9-53AvAGzk
 
 ## 기획 의도
 
@@ -198,7 +200,7 @@
 
 - React.js + Typescript + Material UI 및 여러 오픈소스 활용
 
-    <img src ="%5BSEG%20DET-06%5D%20Pstage2Serving()%20e761bfaedce84c8d87bc224f68f4686f/Untitled%202.png" width = "70%">
+    <img src ="https://user-images.githubusercontent.com/54058621/124643839-87532580-decc-11eb-9c8e-fd4fb46af4a7.png" width = "70%">
 
 #### Deep Learning
 
